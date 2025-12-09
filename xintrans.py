@@ -266,6 +266,11 @@ def trans(file_path, drawing_id, data1):
         pj.append(positive_group)
         pj.append(negative_group)
 
+    # print("pj =", pj)
+    # print(f"\n=== 第 {drawing_id} 号担架 pj 结构 ===")
+    # print("本担架上拼接点组:", pj[drawing_id - 1][0])
+    # print("本担架下拼接点组:", pj[drawing_id - 1][1])
+
     # 输出结果
     node1_id = (drawing_id * 100 + 1) * 100
     node2_id = (drawing_id * 100 + 3) * 100

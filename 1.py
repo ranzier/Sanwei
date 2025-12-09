@@ -1,72 +1,27 @@
 import math
 import xintrans
-
-# def work1(p, p1, p2):
-#     """
-#     计算点 p 到经过点 p1 和 p2 的直线的距离。
-#
-#     参数:
-#         p: 点 p 的坐标，格式为 (x, y)
-#         p1: 直线上的第一个点，格式为 (x, y)
-#         p2: 直线上的第二个点，格式为 (x, y)
-#
-#     返回:
-#         点 p 到直线的距离
-#     """
-#     x, y = p
-#     x1, y1 = p1
-#     x2, y2 = p2
-#
-#     # 计算向量 P1P2 和 P1P 的叉积
-#     cross_product = (x2 - x1) * (y - y1) - (x - x1) * (y2 - y1)
-#
-#     # 计算向量 P1P2 的长度
-#     line_length = math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
-#
-#     # 避免除以零（如果 P1 和 P2 重合，则无法定义直线）
-#     if line_length == 0:
-#         raise ValueError("点 p1 和 p2 重合，无法定义直线")
-#
-#     # 计算距离
-#     distance = abs(cross_product) / line_length
-#     return distance
-
-# def work2(p1, p2):
-#     """
-#     计算二维平面上两点之间的欧几里得距离。
-#
-#     参数:
-#         p1: 第一个点的坐标，格式为 (x1, y1)
-#         p2: 第二个点的坐标，格式为 (x2, y2)
-#
-#     返回:
-#         两点之间的距离
-#     """
-#     x1, y1, z1 = p1
-#     x2, y2, z2 = p2
-#     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2 + (z2 - z1) ** 2)
-
-# p1 = (-2011.348854020199, 2011.3488540201986, -16409.497052455878)
-# p2 = (-1875.0425680452765, 1877.9143998739683, -14637.545469096292)
-#
-#
-# x = (1596.24 * 1596.24 + 1371 * 1371 + 52.2 * 52.2 - 735.98 * 735.98) / (2 * 1371 * 1596.24)
-# theta = math.acos(0.9401171811786656)  # 0.476822737550802     06cos = 0.9401171811786656
-#
-#
-# bili = (1014-272) / (2441 - 272)
-# x = 2166 * bili
-# y = 533+(649 - 533) * bili
-# z = 727 * bili
-#
-# tt = work2(p1,p2)
-#print(tt)
-#result = trans12.trans(r"C:\Users\12159\Desktop\Rebuild\sanshitu_name\pdf01\01.txt", 1)
+import os
 
 data = [['90310', (-0.45, -0.45, 0.0)], ['90311', (0.45, -0.45, 0.0)], ['90910', (-0.488, -0.488, 0.721)], ['90911', (0.488, -0.488, 0.721)], ['90320', (-0.59, -0.59, 2.666)],
         ['90321', (0.59, -0.59, 2.666)], ['101010', (-0.643, -0.643, 3.652)], ['101011', (0.643, -0.643, 3.652)], ['100320', (-0.787, -0.787, 6.342)], ['100321', (0.787, -0.787, 6.342)],
         ['111210', (-0.843, -0.843, 7.364)], ['111211', (0.843, -0.843, 7.364)], ['110320', (-0.982, -0.982, 9.928)], ['110321', (0.982, -0.982, 9.928)], ['121510', (-1.031, -1.031, 10.843)], ['121511', (1.031, -1.031, 10.843)]]
 
-ganjian, jiedian = xintrans.work(r"D:\Sanwei\zuobiao", data)
-print(ganjian)
+jiedian, ganjian = xintrans.work(r"D:\Sanwei\zuobiao", data)
 print(jiedian)
+print(ganjian)
+
+
+output_dir = r"D:\Sanwei\result"
+os.makedirs(output_dir, exist_ok=True)
+output_file = os.path.join(output_dir, "result.txt")
+
+with open(output_file, 'w', encoding='utf-8') as f:
+    f.write("=================== 担架部分生成的节点 (jiedian) ===================\n\n")
+    for node in jiedian:
+        f.write(str(node) + "\n\n")
+
+    f.write("=================== 担架部分生成的杆件 (ganjian) ===================\n\n")
+    for rod in ganjian:
+        f.write(str(rod) + "\n\n")
+
+print(f"共生成 {len(jiedian)} 个节点，{len(ganjian)} 根杆件")
