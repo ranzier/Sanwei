@@ -7,7 +7,6 @@ def dist_points(p1, p2):
     x2, y2 = p2
     return math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2)
 
-
 def angle_between_lines(line1_pt1, line1_pt2, line2_pt1, line2_pt2):
     """
     计算两条直线的锐角夹角（0-90度）的简化版本
@@ -74,7 +73,6 @@ def dist_point_to_line(point, line_point1, line_point2):
     distance = abs(A * x + B * y + C) / math.sqrt(A ** 2 + B ** 2)
 
     return distance
-
 
 def line_intersection(line1, line2):
     """
@@ -155,7 +153,6 @@ def transform_data(input_data):
 
     return groups
 
-
 def cluster_points(points, threshold=150.0):
     """
     对点进行聚类，如果当前点与前一个点距离小于阈值，则合并到前一个聚类
@@ -199,7 +196,6 @@ def cluster_points(points, threshold=150.0):
     # 返回聚类中心点
     return [cluster["centroid"] for cluster in clusters]
 
-
 def remove_endpoint_clusters(clustered_points, rod_endpoints, threshold=10):
     """
     去除与杆件端点重合的聚类点
@@ -226,7 +222,6 @@ def remove_endpoint_clusters(clustered_points, rod_endpoints, threshold=10):
             filtered_points.append(point)
 
     return filtered_points
-
 
 jiedian = []
 ganjian = []
@@ -271,10 +266,15 @@ def trans(file_path, drawing_id, data1):
     # print("本担架上拼接点组:", pj[drawing_id - 1][0])
     # print("本担架下拼接点组:", pj[drawing_id - 1][1])
 
+
+
+
     # 输出结果
     node1_id = (drawing_id * 100 + 1) * 100
     node2_id = (drawing_id * 100 + 3) * 100
-    if(drawing_id * 100 + 1 in coordinatesBottom_data):#底面是仰视图
+
+    # 底面是仰视图：也就是生成3、4、5、6、7、8号担架
+    if(drawing_id * 100 + 1 in coordinatesBottom_data):
         l1 = compute_l1_B(coordinatesBottom_data, drawing_id)
         node3_id = (drawing_id * 100 + l1) * 100
         start_01x = coordinatesBottom_data[drawing_id * 100 + 1][0][0]
@@ -294,6 +294,8 @@ def trans(file_path, drawing_id, data1):
         bili = shiji / a1
         p_01r = (end_01x, end_01y)
         a2 = dist_points(p_01r, midr)
+
+
         #生成尖点
         if(pj[drawing_id - 1][1][1][0] > 0):
             newx = pj[drawing_id - 1][1][1][0] + h * bili
@@ -312,6 +314,8 @@ def trans(file_path, drawing_id, data1):
             "Z": round(newz,3)
         }
         jiedian.append(new_node)
+
+
         #正视图
         intersections_101 = []
         intersections_102 = []
@@ -458,6 +462,8 @@ def trans(file_path, drawing_id, data1):
                     "node2_id": node_101_nodes[i],
                     "symmetry_type": 2
                 })
+
+
         #仰视图
         intersections_101.clear()
 
@@ -551,6 +557,7 @@ def trans(file_path, drawing_id, data1):
             "symmetry_type": 2
         })
 
+
         #俯视图
         jdyuzhi = 5
         intersections_103.clear()
@@ -626,7 +633,7 @@ def trans(file_path, drawing_id, data1):
                     "node2_id": f"{drawing_id}301{i + 1}2",
                     "symmetry_type": 0
                 })
-        #else是俯视图交叉的情况
+        # else是俯视图交叉的情况
 
         new_ganjian = {
             "ganjian_id": f"{drawing_id * 100 + 1}",
@@ -650,6 +657,8 @@ def trans(file_path, drawing_id, data1):
         }
         ganjian.append(new_ganjian)
 
+
+    # 底面是俯视图：也就是生成1、2号担架
     else:
         l1 = compute_l1_O(coordinatesOverhead_data, drawing_id)
         start_01x = coordinatesOverhead_data[drawing_id * 100 + 1][0][0]
@@ -670,6 +679,8 @@ def trans(file_path, drawing_id, data1):
         p_01r = (end_01x, end_01y)
         a2 = dist_points(p_01r, midr)
         node3_id = (drawing_id * 100 + l1) * 100
+
+
         # 生成尖点
         if (pj[drawing_id - 1][0][1][0] > 0):
             newx = pj[drawing_id - 1][0][1][0] + h * bili
@@ -688,6 +699,9 @@ def trans(file_path, drawing_id, data1):
             "Z": round(newz,3)
         }
         jiedian.append(new_node)
+
+
+
         # 正视图
         intersections_101 = []
         intersections_102 = []
@@ -834,6 +848,9 @@ def trans(file_path, drawing_id, data1):
                     "node2_id": node_101_nodes[i],
                     "symmetry_type": 2
                 })
+
+
+
         #俯视图
         intersections_102.clear()
 
@@ -926,6 +943,9 @@ def trans(file_path, drawing_id, data1):
             "node2_id": node_102_ids[len(real_102) - 1],
             "symmetry_type": 2
         })
+
+
+
         #仰视图
         intersections_103.clear()
 
@@ -1018,6 +1038,9 @@ def trans(file_path, drawing_id, data1):
             "node2_id": node_103_ids[len(real_103) - 1],
             "symmetry_type": 2
         })
+
+
+
         new_ganjian = {
            "ganjian_id": f"{drawing_id * 100 + 1}",
            "node1_id": pj[drawing_id - 1][0][0],
